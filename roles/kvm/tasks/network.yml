@@ -7,7 +7,7 @@
       dest: '/etc/netplan/99-ansible-custom.yaml'
   register: task_bridge
 
-- name: Apply netplan to see if the file is valid
+- name: Apply netplan to see if the file is valid before reboot
   command: netplan apply
 
 - name: Reboot if network configuration changed

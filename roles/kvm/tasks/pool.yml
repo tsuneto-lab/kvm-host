@@ -23,16 +23,22 @@
     - /var/lib/libvirt/images/isos/fedora
     - /var/lib/libvirt/images/isos/cloud-init
 
-# - name: pool
+# legacy install error for python-libvirt
+# - name: virt pool
 #   community.libvirt.virt_pool:
-#     name: '{{ virt_pool_name }}'
+#     name: '{{ name }}'
 #     autostart: yes
 #     state: active
 #     xml: '{{ lookup("template", "virt-pool-dir.xml.j2") }}'
+#   vars:
+#     name: '{{ default_virt_pool.name }}'
+#     uuid: '{{ default_virt_pool.uuid }}'
+#     path: '{{ default_virt_pool.path }}'
 
 - name: check the pool
   become: true
   become_user: '{{ kvm_user }}'
   shell: |
-    virsh pool-dumpxml --pool {{ virt_pool_name }} | grep '<path>/var/lib/libvirt/images</path>'
-    virsh pool-list | grep '{{ virt_pool_name }}' | grep active | grep yes
+    virsh pool-dumpxml --pool {{ default_virt_pool.name }} | grep '<path>/var/lib/libvirt/images</path>'
+    virsh pool-list | grep '{{ default_virt_pool.name }}' | grep active | grep yes
+  changed_when: False
