@@ -1,0 +1,36 @@
+- name: Install KVM related packages
+  ansible.builtin.apt:
+    name:
+      - qemu-kvm
+      - libvirt-daemon-system
+      - libvirt-clients
+      - bridge-utils
+      - virt-top
+      - virt-manager
+    state: present
+
+- name: Create KVM User
+  ansible.builtin.user:
+    name: '{{ kvm_user }}'
+    groups:
+      - libvirt
+      - kvm
+    state: present
+
+- name: Allow ansible_user to sudo -u kvm-user without password
+  community.general.sudoers:
+    name: ansible-kvm-user
+    user: '{{ ansible_user }}'
+    runas: '{{ kvm_user }}'
+    commands: ALL
+
+- name: Enable libvirtd
+  ansible.builtin.service:
+    name: libvirtd
+    state: started
+    enabled: yes
+# - name: Add sudoers to allow ansible_user to run as KVM user
+#   community.general.sudoers:
+#     name: ansible_kvm
+#     user: '{{ ansible_user }}'
+#     runas: '{{ kvm_user }}'

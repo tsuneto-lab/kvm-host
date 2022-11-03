@@ -1,0 +1,29 @@
+## executing playbook with password auth requires sshpass,
+# I'd rather ssh-copy-id first for the ansible_user
+- name: Set Authorized keys
+  ansible.builtin.authorized_key:
+    user: '{{ ansible_user }}'
+    state: present
+    key: '{{ lookup("ansible.builtin.file", item) }}'
+  with_fileglob:
+    - 'public_keys/common/*'
+    - 'public_keys/{{ inventory_hostname }}/*'
+
+- name: Disable Password Authentication
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    insertafter: '^\#PasswordAuthentication'
+    line: 'PasswordAuthentication no'
+
+- name: Disable Challenge Response Authentication
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^ChallengeResponseAuthentication'
+    insertafter: '^\#ChallengeResponseAuthentication'
+    line: 'ChallengeResponseAuthentication no'
+
+- name: Reload sshd
+  service:
+    name: sshd
+    state: reloaded

@@ -1,0 +1,10 @@
+- name: grep /proc/cpuinfo to find if vmx|svm exists
+  command: egrep -q '(vmx|svm)' /proc/cpuinfo
+
+- name: Install cpu checker
+  ansible.builtin.apt:
+    name: cpu-checker
+    state: present
+
+- name: Check KVM OK
+  ansible.builtin.command: kvm-ok # will return non-zero code if the system doesn't support KVM

@@ -1,0 +1,28 @@
+- name: Mount disk to default image directory
+  ansible.posix.mount:
+    path: /var/lib/libvirt/images
+    src: '{{ kvm_image_volume_device }}'
+    fstype: ext4
+    state: mounted
+  when: kvm_image_volume_device is defined
+
+- name: modify pool dir
+  file:
+    path: /var/lib/libvirt/images
+    mode: '775'
+    owner: 'libvirt-qemu'
+    group: 'kvm'
+
+# - name: pool
+#   community.libvirt.virt_pool:
+#     name: '{{ virt_pool_name }}'
+#     autostart: yes
+#     state: active
+#     xml: '{{ lookup("template", "virt-pool-dir.xml.j2") }}'
+
+- name: check the pool
+  become: true
+  become_user: '{{ kvm_user }}'
+  shell: |
+    virsh pool-dumpxml --pool {{ virt_pool_name }} | grep '<path>/var/lib/libvirt/images</path>'
+    virsh pool-list | grep '{{ virt_pool_name }}' | grep active | grep yes

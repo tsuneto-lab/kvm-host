@@ -1,0 +1,11 @@
+- name: Setup SSH
+  become: true
+  import_tasks: ssh.yml
+
+- name: Add sudoers
+  become: true
+  import_tasks: sudoers.yml
+
+- name: Upgrade packages
+  become: true
+  import_tasks: upgrade-pkg.yml

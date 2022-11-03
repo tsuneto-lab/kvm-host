@@ -1,0 +1,15 @@
+- name: Pre-check
+  become: true
+  import_tasks: pre-check.yml
+
+- name: Install KVM
+  become: true
+  import_tasks: install.yml
+
+- name: Network Setting
+  become: true
+  import_tasks: network.yml
+
+- name: Storage pool
+  become: true
+  import_tasks: pool.yml

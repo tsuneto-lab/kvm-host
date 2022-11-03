@@ -1,0 +1,5 @@
+- name: Allow ansible_user to sudo without password
+  community.general.sudoers:
+    name: ansible
+    user: '{{ ansible_user }}'
+    commands: ALL

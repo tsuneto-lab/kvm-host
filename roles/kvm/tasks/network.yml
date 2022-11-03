@@ -1,0 +1,21 @@
+- name: Place network configuration file
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - src: 'netplan/99-custom.yaml.j2'
+      dest: '/etc/netplan/99-ansible-custom.yaml'
+  register: task_bridge
+
+- name: Apply netplan to see if the file is valid
+  command: netplan apply
+
+- name: Reboot if network configuration changed
+  ansible.builtin.reboot:
+    reboot_timeout: 100
+  when: task_bridge.changed
+# to inspect:
+# cat /etc/network/interfaces
+# networkctl
+# ip address show br0
+# brctl show
