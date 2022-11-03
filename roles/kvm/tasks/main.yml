@@ -13,3 +13,7 @@
 - name: Storage pool
   become: true
   import_tasks: pool.yml
+
+- name: Prepare Guest Images
+  become: true
+  import_tasks: guest-images.yml

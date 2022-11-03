@@ -1,3 +1,4 @@
 network:
   bridge_name: bridge-nonat
   interface_name: enp7s0
+images_directory: /var/lib/libvirt/images

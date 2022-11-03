@@ -11,12 +11,18 @@ ansible-playbook -Ki inventory/hosts.yml main.yml
 ansible-playbook -i inventory/hosts.yml main.yml
 ```
 
+## put guest os image
+
 ```bash
-# wget https://download.fedoraproject.org/pub/fedora/linux/releases/36/Server/x86_64/iso/Fedora-Server-dvd-x86_64-36-1.5.iso
+wget https://download.fedoraproject.org/pub/fedora/linux/releases/36/Server/x86_64/iso/Fedora-Server-dvd-x86_64-36-1.5.iso
 mkdir -p /var/lib/libvirt/images/isos/fedora/
 mv Fedora-Server-dvd-x86_64-36-1.5.iso /var/lib/libvirt/images/isos/fedora/
 sudo chown -R libvirt-qemu:kvm /var/lib/libvirt/images/isos/ # not completely sure about the owner
+```
 
+## install guest os
+
+```bash
 virt-install \
   --connect=qemu:///system \
   --name guest1-fedora36 \
@@ -25,7 +31,7 @@ virt-install \
   --disk size=20 \
   --network bridge=br0 \
   --nographics \
-  --location /var/lib/libvirt/images/isos/fedora/Fedora-Server-dvd-x86_64-36-1.5.iso \
+  --cdrom /var/lib/libvirt/images/isos/fedora/Fedora-Server-dvd-x86_64-36-1.5.iso \
   --os-variant fedora-unknown \
   --extra-args "console=ttyS0 --- console=ttyS0"
 
@@ -33,7 +39,7 @@ virt-install \
 virsh console guest1-fedora36
 ```
 
-## change IP address
+## change IP address in guest os
 
 ```bash
 sudo nmcli connection modify enp1s0 IPv4.address 10.10.10.111/24

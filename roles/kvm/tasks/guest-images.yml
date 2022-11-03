@@ -1,0 +1,54 @@
+- name: Create Download Directory
+  file:
+    path: '{{ item }}'
+    group: kvm
+    mode: '644'
+    state: directory
+  loop:
+    - '/home/{{ kvm_user }}/download'
+    - '/home/{{ kvm_user }}/extracted'
+
+- name: Download Images
+  get_url:
+    url: '{{ item.url }}'
+    dest: '/home/{{ kvm_user }}/download/{{ item.url | regex_search("[a-zA-Z0-9._\-]+$") }}'
+    owner: '{{ kvm_user }}'
+    group: kvm
+  loop: '{{ guest_os_images }}'
+
+- name: Extract xs archive
+  shell: |
+    if [ -e "/home/{{ kvm_user }}/extracted/{{ item.image_name }}" ]; then
+     exit 33
+    fi
+    unxz --keep --files0="/home/{{ kvm_user }}/download/{{ item.url | regex_search("[a-zA-Z0-9._\-]+$") }}" > /home/{{ kvm_user }}/extracted/{{ item.image_name }}
+  register: result
+  changed_when: result.rc != 33
+  failed_when: result.rc != 0 and result.rc != 33
+  when: item.url is regex('.*\.raw\.xz')
+  loop: '{{ guest_os_images }}'
+
+- name: Make sure the target dirs exist
+  file:
+    path: '{{ images_directory }}/isos/{{ item.os_type }}'
+    group: 'kvm'
+    mode: '775'
+    state: directory
+  loop: '{{ guest_os_images }}'
+
+- name: Copy image under the pool
+  copy:
+    remote_src: yes
+    src: '/home/{{ kvm_user }}/extracted/{{ item.image_name }}'
+    dest: '{{ images_directory }}/isos/{{ item.os_type }}/{{ item.image_name }}'
+    mode: '775'
+    group: 'kvm'
+    owner: '{{ kvm_user }}'
+  loop: '{{ guest_os_images }}'
+# - name: extract Images and place to the image dir
+#   unarchive:
+#     remote_src: yes
+#     src: '/home/{{ kvm_user }}/download/{{ item.url | regex_search("[a-zA-kkZ0-9._\-]+$") }}'
+#     dest: '{{ images_directory }}'
+#     creates: '{{ images_directory }}/isos/{{ item.os_type }}/{{ item.image_name }}'
+#   loop: '{{ guest_os_images }}'

@@ -13,6 +13,16 @@
     owner: 'libvirt-qemu'
     group: 'kvm'
 
+- name: create isos dir
+  file:
+    path: '{{ item }}'
+    mode: '775'
+    group: 'kvm'
+    state: directory
+  loop:
+    - /var/lib/libvirt/images/isos/fedora
+    - /var/lib/libvirt/images/isos/cloud-init
+
 # - name: pool
 #   community.libvirt.virt_pool:
 #     name: '{{ virt_pool_name }}'
