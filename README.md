@@ -39,6 +39,10 @@ virt-install \
 virsh console guest1-fedora36
 ```
 
+## install guest os with cloud-init
+
+templated script
+
 ## change IP address in guest os
 
 ```bash
@@ -53,5 +57,4 @@ sudo nmcli connection up enp1s0
 
 ```
 sudo virsh shutdown guest1-fedora36
-sudo virsh undefine guest1-fedora36 --remove-all-storage
 ```

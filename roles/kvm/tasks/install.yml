@@ -9,21 +9,6 @@
       - virt-manager
     state: present
 
-- name: Create KVM User
-  ansible.builtin.user:
-    name: '{{ kvm_user }}'
-    groups:
-      - libvirt
-      - kvm
-    state: present
-
-- name: Allow ansible_user to sudo -u kvm-user without password
-  community.general.sudoers:
-    name: ansible-kvm-user
-    user: '{{ ansible_user }}'
-    runas: '{{ kvm_user }}'
-    commands: ALL
-
 - name: Enable libvirtd
   ansible.builtin.service:
     name: libvirtd

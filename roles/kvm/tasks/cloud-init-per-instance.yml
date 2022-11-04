@@ -1,0 +1,80 @@
+- name: make sure the remote host has directories for cloud-init
+  file:
+    path: '{{ item }}'
+    owner: '{{ kvm_user }}'
+    group: 'kvm'
+    mode: '775'
+    state: directory
+  loop:
+    - '/home/{{ kvm_user }}/cloud-init'
+    - '/home/{{ kvm_user }}/cloud-init/{{ parent_item.instance_id }}'
+
+- name: Extract xs archive
+  shell: |
+    IMG_DIR="{{ images_directory }}"
+    COMPRESSED_FILE="$IMG_DIR/raw.xz/{{ parent_item.image_filename }}"
+    EXTRACTED_FILE="$IMG_DIR/{{ parent_item.instance_id }}.raw"
+    if [ -e "$EXTRACTED_FILE" ]; then
+      echo "${EXTRACTED_FILE} already exists"
+      exit 0
+    fi
+    echo "changed"
+    unxz --stdout "$COMPRESSED_FILE" > "$EXTRACTED_FILE"
+    chown {{ kvm_user }}:kvm "$EXTRACTED_FILE"
+    chmod 775 "$EXTRACTED_FILE"
+  register: result
+  changed_when: result.stdout == "changed"
+  failed_when: result.rc != 0
+  # when: item.image_filename is regex('.*\.raw\.xz')
+
+- name: Template cloud-init files
+  template:
+    src: 'cloud-init/{{ item }}.j2'
+    dest: '/home/{{ kvm_user }}/cloud-init/{{ instance_id }}/{{ item }}'
+    owner: '{{ kvm_user }}'
+    group: 'kvm'
+    mode: '644'
+  vars:
+    # expand here for documenting purpose
+    instance_id: '{{parent_item.instance_id}}'
+    local_hostname: '{{parent_item.local_hostname}}'
+    user_name: '{{parent_item.user_name}}'
+    device_name: '{{parent_item.network.device_name}}'
+    addresses: '{{parent_item.network.addresses}}'
+    gateway4: '{{parent_item.network.gateway4}}'
+    nameservers: '{{parent_item.network.nameservers}}'
+    # besides, ssh_authorized_keys are defined in variable root level
+  register: ci_result
+  loop:
+    - meta-data
+    - user-data
+    - network-config
+
+- name: Generate ISO image
+  shell: |
+    SRC_DIR='/home/{{ kvm_user }}/cloud-init/{{ parent_item.instance_id }}'
+    DEST_FILE='{{ cloud_init_destination_dir }}/{{ parent_item.instance_id }}-seed.iso'
+    if {{ ci_result.changed | lower }} ; then
+      chattr –i "$DEST_FILE"
+      rm "$DEST_FILE"
+    fi
+    if [ -e "$DEST_FILE" ]; then
+      exit 0
+    fi
+
+    echo changed
+    genisoimage --output "$DEST_FILE" -volid "cidata" -input-charset "utf-8" -joliet -rock \
+      "$SRC_DIR/meta-data" "$SRC_DIR/user-data" "$SRC_DIR/network-config"
+  register: result
+  changed_when: result.stdout == "changed"
+
+# - debug:
+#     var: result
+
+- name: Generate Install Script for manual use
+  template:
+    src: virt-install.sh.j2
+    dest: '/home/{{ kvm_user }}/cloud-init/{{ parent_item.instance_id }}/install.sh'
+    owner: '{{kvm_user}}'
+    group: 'kvm'
+    mode: '774'

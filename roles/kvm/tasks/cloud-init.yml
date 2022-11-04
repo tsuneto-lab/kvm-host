@@ -1,0 +1,15 @@
+- name: Make a directory for iso images
+  file:
+    path: '{{ cloud_init_destination_dir }}'
+    owner: '{{ kvm_user }}'
+    group: 'kvm'
+    mode: '775'
+    state: directory
+
+- name: loop through the guest-vms definitions to generate cloud-init configs
+  include_role:
+    name: '{{ role_name }}'
+    tasks_from: cloud-init-per-instance.yml
+  loop: '{{ guest_vms }}'
+  loop_control:
+    loop_var: parent_item

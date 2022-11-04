@@ -4,10 +4,8 @@
   ansible.builtin.authorized_key:
     user: '{{ ansible_user }}'
     state: present
-    key: '{{ lookup("ansible.builtin.file", item) }}'
-  with_fileglob:
-    - 'public_keys/common/*'
-    - 'public_keys/{{ inventory_hostname }}/*'
+    key: '{{ item }}'
+  loop: '{{ ssh_authorized_keys }}'
 
 - name: Disable Password Authentication
   lineinfile:

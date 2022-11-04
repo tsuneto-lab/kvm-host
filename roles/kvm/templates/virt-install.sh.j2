@@ -1,0 +1,16 @@
+#/bin/bash
+
+virt-install \
+  --connect=qemu:///system \
+  --memory 6144 \
+  --vcpus 2 \
+  --network bridge=br0 \
+  --name {{ parent_item.instance_id }} \
+  --disk {{images_directory}}/{{ parent_item.instance_id }}.raw,device=disk,bus=virtio,format={{ parent_item.image_format }} \
+  --disk {{images_directory}}/isos/cloud-init/{{parent_item.instance_id}}-seed.iso,device=cdrom \
+  --os-variant {{parent_item.os_variant}} \
+  --virt-type kvm \
+  --graphics none \
+  --import
+
+virsh autostart {{ parent_item.instance_id }}

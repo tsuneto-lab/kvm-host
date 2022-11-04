@@ -1,0 +1,15 @@
+#cloud-config
+version: 2
+ethernets:
+  {{ device_name }}:
+    dhcp4: false
+    addresses:
+{% for address in addresses %}
+      - {{ address }}
+{% endfor %}
+    gateway4: {{ gateway4 }}
+    nameservers:
+      addresses:
+{% for address in nameservers %}
+        - {{ address }}
+{% endfor %}

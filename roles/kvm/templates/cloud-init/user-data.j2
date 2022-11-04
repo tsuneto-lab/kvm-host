@@ -1,0 +1,11 @@
+#cloud-config
+users:
+  - name: {{ user_name }}
+    plain_text_passwd: {{ user_name }}
+    ssh_authorized_keys:
+{% for key in ssh_authorized_keys %}
+      - {{ key }}
+{% endfor %}
+    shell: '/bin/bash'
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    lock_passwd: false

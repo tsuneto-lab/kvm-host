@@ -1,32 +1,14 @@
 - name: Make sure the target dirs exist
   file:
-    path: '{{ images_directory }}/isos/{{ item.os_type }}'
+    path: '{{ images_directory }}/raw.xz'
     group: 'kvm'
     mode: '775'
     state: directory
-  loop: '{{ guest_os_images }}'
 
 - name: Copy Images
   copy:
-    src: 'images/{{ item.os_type }}/{{ item.image_filename }}'
-    dest: '{{ images_directory }}/isos/{{ item.os_type }}/{{ item.image_filename }}'
+    src: 'images/raw.xz/{{ item.image_filename }}'
+    dest: '{{ images_directory }}/raw.xz/{{ item.image_filename }}'
     owner: '{{ kvm_user }}'
     group: kvm
-  loop: '{{ guest_os_images }}'
-
-- name: Extract xs archive
-  shell: |
-    FILE_DIR="{{ images_directory }}/isos/{{ item.os_type }}"
-    COMPRESSED="{{ item.image_filename }}"
-    EXTRACTED="{{ item.image_filename | regex_replace('^(.*)\.xz$', '\1')}}"
-    if [ -e "${FILE_DIR}/${EXTRACTED}" ]; then
-      echo "${FILE_DIR}/${EXTRACTED} already exists"
-      exit 0
-    fi
-    echo "changed"
-    unxz --keep "${FILE_DIR}/${COMPRESSED}"
-  register: result
-  changed_when: result.stdout == "changed"
-  failed_when: result.rc != 0
-  when: item.image_filename is regex('.*\.raw\.xz')
   loop: '{{ guest_os_images }}'

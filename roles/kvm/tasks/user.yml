@@ -1,0 +1,34 @@
+- name: Create KVM User
+  ansible.builtin.user:
+    name: '{{ kvm_user }}'
+    groups:
+      - libvirt
+      - kvm
+    shell: /bin/bash
+    state: present
+
+- name: Allow ansible_user to sudo -u kvm-user without password
+  community.general.sudoers:
+    name: ansible-kvm-user
+    user: '{{ ansible_user }}'
+    runas: '{{ kvm_user }}'
+    commands: ALL
+
+- name: Set Authorized keys
+  ansible.builtin.authorized_key:
+    user: '{{ kvm_user }}'
+    state: present
+    key: '{{ item }}'
+  loop: '{{ ssh_authorized_keys }}'
+
+- name: copy rc files from ansible user
+  copy:
+    remote_src: yes
+    src: '/home/{{ ansible_user }}/{{ item }}'
+    dest: '/home/{{ kvm_user }}/{{ item }}'
+    mode: '644'
+    owner: '{{ kvm_user }}'
+    group: '{{ kvm_user }}'
+  loop:
+    - .profile
+    - .bashrc
