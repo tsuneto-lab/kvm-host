@@ -12,10 +12,13 @@ guest_os_images:
   - image_filename: Fedora-Cloud-Base-36-1.5.x86_64.raw.xz
 guest_vms:
   - instance_id: fedora-vm1
-    local_hostname: fedora1
+    local_hostname: fedora-vm1
+    noautoconsole: true
     image_filename: Fedora-Cloud-Base-36-1.5.x86_64.raw.xz
+    memory: '4096'
+    vcpus: '2'
     image_format: raw
-    os_type: fedora-cloud
+    disk_size: 10G
     os_variant: fedora-unknown
     user_name: kvm-user
     network:

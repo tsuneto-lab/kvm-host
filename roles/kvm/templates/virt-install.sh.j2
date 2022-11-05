@@ -2,8 +2,9 @@
 
 virt-install \
   --connect=qemu:///system \
-  --memory 6144 \
-  --vcpus 2 \
+  --import \
+  --memory {{ parent_item.memory }} \
+  --vcpus {{ parent_item.vcpus }} \
   --network bridge=br0 \
   --name {{ parent_item.instance_id }} \
   --disk {{images_directory}}/{{ parent_item.instance_id }}.raw,device=disk,bus=virtio,format={{ parent_item.image_format }} \
@@ -11,6 +12,7 @@ virt-install \
   --os-variant {{parent_item.os_variant}} \
   --virt-type kvm \
   --graphics none \
-  --import
-
-virsh autostart {{ parent_item.instance_id }}
+{% if parent_item.noautoconsole is defined and parent_item.noautoconsole %}
+  --noautoconsole \
+{% endif %}
+  --autostart

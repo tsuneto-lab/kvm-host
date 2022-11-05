@@ -23,17 +23,8 @@ sudo chown -R libvirt-qemu:kvm /var/lib/libvirt/images/isos/ # not completely su
 ## install guest os
 
 ```bash
-virt-install \
-  --connect=qemu:///system \
-  --name guest1-fedora36 \
-  --memory 6134 \
-  --vcpus 2 \
-  --disk size=20 \
-  --network bridge=br0 \
-  --nographics \
-  --cdrom /var/lib/libvirt/images/isos/fedora/Fedora-Server-dvd-x86_64-36-1.5.iso \
-  --os-variant fedora-unknown \
-  --extra-args "console=ttyS0 --- console=ttyS0"
+# kvm-user@kvm1
+./
 
 # connect to guest console
 virsh console guest1-fedora36
@@ -43,7 +34,9 @@ virsh console guest1-fedora36
 
 templated script
 
-## change IP address in guest os
+## change IP address in guest os (old)
+
+using cloud-init instead.
 
 ```bash
 sudo nmcli connection modify enp1s0 IPv4.address 10.10.10.111/24
@@ -55,6 +48,27 @@ sudo nmcli connection down enp1s0
 sudo nmcli connection up enp1s0
 ```
 
+## resize disk
+
+```bash
+virsh shutdown fedora-vm1
+qemu-img resize -f raw /var/lib/libvirt/images/fedora-vm1.raw 10G
+virsh start fedora-vm1
+
+ssh kvm-user@fedora-vm1
+sudo lsblk
+df
 ```
-sudo virsh shutdown guest1-fedora36
+
+## clean up
+
+```
+virsh shutdown fedora-vm1
+virsh undefine fedora-vm1
+rm /var/lib/libvirt/images/fedora-vm1.raw
+```
+
+```bash
+# local
+ssh-keygen -R 10.10.10.111
 ```
