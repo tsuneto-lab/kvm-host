@@ -1,27 +1,18 @@
-- name: Mount disk to default image directory
-  ansible.posix.mount:
-    path: /var/lib/libvirt/images
-    src: '{{ kvm_image_volume_device }}'
-    fstype: ext4
-    state: mounted
-  when: kvm_image_volume_device is defined
+# simply expanding / or mounting on /var would do
+# - name: Mount disk to default image directory
+#   ansible.posix.mount:
+#     path: /var/lib/libvirt/images
+#     src: '{{ kvm_image_volume_device }}'
+#     fstype: ext4
+#     state: mounted
+#   when: kvm_image_volume_device is defined
 
-- name: modify pool dir
-  file:
-    path: /var/lib/libvirt/images
-    mode: '775'
-    owner: 'libvirt-qemu'
-    group: 'kvm'
-
-- name: create isos dir
-  file:
-    path: '{{ item }}'
-    mode: '775'
-    group: 'kvm'
-    state: directory
-  loop:
-    - /var/lib/libvirt/images/isos/fedora
-    - /var/lib/libvirt/images/isos/cloud-init
+# - name: modify pool dir
+#   file:
+#     path: /var/lib/libvirt/images
+#     mode: '775'
+#     owner: 'libvirt-qemu'
+#     group: 'kvm'
 
 # legacy install error for python-libvirt
 # - name: virt pool
