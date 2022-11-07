@@ -12,8 +12,8 @@
 - name: Extract xs archive
   shell: |
     IMG_DIR="{{ images_directory }}"
-    COMPRESSED_FILE="$IMG_DIR/raw.xz/{{ parent_item.image_filename }}"
-    EXTRACTED_FILE="$IMG_DIR/{{ parent_item.instance_id }}.raw"
+    COMPRESSED_FILE="$IMG_DIR/xz/{{ parent_item.image_filename }}"
+    EXTRACTED_FILE="$IMG_DIR/{{ parent_item.instance_id }}.{{ parent_item.image_format }}"
     if [ -e "$EXTRACTED_FILE" ]; then
       echo "${EXTRACTED_FILE} already exists"
       exit 0
@@ -25,7 +25,6 @@
   register: result
   changed_when: result.stdout == "changed"
   failed_when: result.rc != 0
-  # when: item.image_filename is regex('.*\.raw\.xz')
 
 - name: Template cloud-init files
   template:
@@ -72,18 +71,24 @@
 #     var: result
 
 - name: Check disk size
-  shell: "ls -hl {{ images_directory }}/{{ parent_item.instance_id }}.raw | awk '{print $5}'"
+  shell: "ls -hl {{ images_directory }}/{{ parent_item.instance_id }}.{{ parent_item.image_format }} | awk '{print $5}'"
   register: disk_size
   changed_when: False
 
-# - debug:
-#     msg: |
-#       disk_size.stdout = {{ disk_size.stdout }}
-#       parent_item.disk_size = {{ parent_item.disk_size }}
+- name: virtual_disk_size
+  shell: "qemu-img info {{ images_directory }}/{{ parent_item.instance_id }}.{{ parent_item.image_format }} | grep 'virtual size' | sed -r 's|.*virtual size: ([0-9]+) GiB.*|\\1G|'"
+  register: virtual_disk_size
+  changed_when: False
+
+- debug:
+    msg: |
+      disk_size.stdout = {{ disk_size.stdout }}
+      virtual_disk_size.stdout = {{ virtual_disk_size.stdout }}
+      parent_item.disk_size = {{ parent_item.disk_size }}
 
 - name: Resize image
-  shell: qemu-img resize -f raw {{ images_directory}}/{{ parent_item.instance_id }}.raw {{ parent_item.disk_size }}
-  when: disk_size.stdout != parent_item.disk_size
+  shell: qemu-img resize -f {{ parent_item.image_format }} {{ images_directory}}/{{ parent_item.instance_id }}.{{ parent_item.image_format }} {{ parent_item.disk_size }}
+  when: disk_size.stdout != parent_item.disk_size and virtual_disk_size.stdout != "" and virtual_disk_size.stdout != parent_item.disk_size
 
 - name: Generate Install Script for manual use
   template:

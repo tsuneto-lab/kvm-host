@@ -2,4 +2,4 @@
 
 virsh shutdown {{ parent_item.instance_id }}
 virsh undefine {{ parent_item.instance_id }}
-rm {{ images_directory }}/{{ parent_item.instance_id }}.raw
+rm {{ images_directory }}/{{ parent_item.instance_id }}.{{ parent_item.image_format }}

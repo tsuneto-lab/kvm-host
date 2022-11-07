@@ -10,3 +10,4 @@ network:
   interface_name: enp7s0
 guest_os_images:
   - image_filename: Fedora-Cloud-Base-36-1.5.x86_64.raw.xz
+  - image_filename: CentOS-Stream-GenericCloud-8-20220913.0.x86_64.qcow2.xz
