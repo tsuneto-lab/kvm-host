@@ -72,3 +72,11 @@ rm /var/lib/libvirt/images/fedora-vm1.raw
 # local
 ssh-keygen -R 10.10.10.111
 ```
+
+## guests
+
+```bash
+source ../ansible-venv/bin/activate
+
+ansible-playbook -i guests/hosts.yml k8s-nodes.yml
+```

@@ -1,0 +1,23 @@
+- name: Copy config file for modules-load to load
+  copy:
+    dest: /etc/modules-load.d/99-istio-modules.conf
+    mode: '644'
+    owner: root
+    group: root
+    content: |
+      # These modules need to be loaded on boot so that Istio (as required by
+      # Kubeflow) runs properly.
+      # See also: https://github.com/istio/istio/issues/23009
+      br_netfilter
+      nf_nat
+      xt_REDIRECT
+      xt_owner
+      iptable_nat
+      iptable_mangle
+      iptable_filter
+
+- name: Enable modprobe load daemon
+  service:
+    name: systemd-modules-load
+    enabled: yes
+    state: reloaded

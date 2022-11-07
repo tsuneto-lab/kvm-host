@@ -1,0 +1,3 @@
+- name: Configure modprobe
+  become: true
+  import_tasks: modprobe.yml
