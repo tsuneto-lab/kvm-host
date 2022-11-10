@@ -20,4 +20,4 @@
   service:
     name: systemd-modules-load
     enabled: yes
-    state: reloaded
+    state: started # reload not applicable

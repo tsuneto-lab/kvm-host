@@ -1,3 +1,7 @@
 - name: Configure modprobe
   become: true
   import_tasks: modprobe.yml
+
+- name: Configure longhorn
+  become: true
+  import_tasks: longhorn.yml

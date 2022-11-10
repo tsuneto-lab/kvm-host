@@ -1,0 +1,33 @@
+- name: Copy dnf_conf file to set tsflags
+  copy:
+    dest: /home/{{ guest_user }}/.dnf_noscripts_conf
+    content: |
+      [main]
+      gpgcheck=1
+      installonly_limit=3
+      clean_requirements_on_remove=True
+      best=True
+      skip_if_unavailable=False
+      tsflags=noscripts
+
+- name: Install iscsi-initiator-utils
+  dnf:
+    pkg:
+      - iscsi-initiator-utils
+    conf_file: /home/{{ guest_user }}/.dnf_noscripts_conf
+
+- name: Copy initiatorname.iscsi
+  copy:
+    dest: /etc/iscsi/initiatorname.iscsi
+    content: InitiatorName={{ iqn }}
+
+- name: Enable iSCSI Daemon
+  service:
+    name: iscsid
+    enabled: no
+    state: started
+
+- name: Install NFS client
+  dnf:
+    pkg:
+      - nfs-utils
