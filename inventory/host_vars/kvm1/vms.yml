@@ -6,7 +6,7 @@ guest_vms:
     memory: '8192'
     vcpus: '2'
     image_format: qcow2
-    disk_size: 30G
+    disk_size: 50G
     os_variant: centos-stream8
     user_name: kvm-user
     network:
@@ -24,7 +24,7 @@ guest_vms:
     memory: '8192'
     vcpus: '2'
     image_format: qcow2
-    disk_size: 30G
+    disk_size: 50G
     os_variant: centos-stream8
     user_name: kvm-user
     network:
@@ -42,7 +42,7 @@ guest_vms:
     memory: '8192'
     vcpus: '2'
     image_format: qcow2
-    disk_size: 30G
+    disk_size: 50G
     os_variant: centos-stream8
     user_name: kvm-user
     network:
@@ -60,7 +60,7 @@ guest_vms:
     memory: '8192'
     vcpus: '2'
     image_format: qcow2
-    disk_size: 30G
+    disk_size: 50G
     os_variant: centos-stream8
     user_name: kvm-user
     network:
@@ -78,7 +78,7 @@ guest_vms:
     memory: '8192'
     vcpus: '2'
     image_format: qcow2
-    disk_size: 30G
+    disk_size: 50G
     os_variant: centos-stream8
     user_name: kvm-user
     network:
@@ -96,103 +96,13 @@ guest_vms:
   #   memory: '8192'
   #   vcpus: '2'
   #   image_format: raw
-  #   disk_size: 30G
+  #   disk_size: 50G
   #   os_variant: fedora-unknown
   #   user_name: kvm-user
   #   network:
   #     device_name: eth0 # need to match
   #     addresses:
   #       - 10.10.10.111/255.255.255.0
-  #     gateway4: '10.10.10.1'
-  #     nameservers:
-  #       - '10.10.10.1'
-  #       - '8.8.8.8'
-  # - instance_id: fedora-vm2
-  #   local_hostname: fedora-vm2
-  #   noautoconsole: true
-  #   image_filename: Fedora-Cloud-Base-36-1.5.x86_64.raw.xz
-  #   memory: '8192'
-  #   vcpus: '2'
-  #   image_format: raw
-  #   disk_size: 30G
-  #   os_variant: fedora-unknown
-  #   user_name: kvm-user
-  #   network:
-  #     device_name: eth0 # need to match
-  #     addresses:
-  #       - 10.10.10.112/255.255.255.0
-  #     gateway4: '10.10.10.1'
-  #     nameservers:
-  #       - '10.10.10.1'
-  #       - '8.8.8.8'
-  # - instance_id: fedora-vm3
-  #   local_hostname: fedora-vm3
-  #   noautoconsole: true
-  #   image_filename: Fedora-Cloud-Base-36-1.5.x86_64.raw.xz
-  #   memory: '8192'
-  #   vcpus: '2'
-  #   image_format: raw
-  #   disk_size: 30G
-  #   os_variant: fedora-unknown
-  #   user_name: kvm-user
-  #   network:
-  #     device_name: eth0 # need to match
-  #     addresses:
-  #       - 10.10.10.113/255.255.255.0
-  #     gateway4: '10.10.10.1'
-  #     nameservers:
-  #       - '10.10.10.1'
-  #       - '8.8.8.8'
-  # - instance_id: fedora-vm4
-  #   local_hostname: fedora-vm4
-  #   noautoconsole: true
-  #   image_filename: Fedora-Cloud-Base-36-1.5.x86_64.raw.xz
-  #   memory: '8192'
-  #   vcpus: '2'
-  #   image_format: raw
-  #   disk_size: 30G
-  #   os_variant: fedora-unknown
-  #   user_name: kvm-user
-  #   network:
-  #     device_name: eth0 # need to match
-  #     addresses:
-  #       - 10.10.10.114/255.255.255.0
-  #     gateway4: '10.10.10.1'
-  #     nameservers:
-  #       - '10.10.10.1'
-  #       - '8.8.8.8'
-  # - instance_id: fedora-vm5
-  #   local_hostname: fedora-vm5
-  #   noautoconsole: true
-  #   image_filename: Fedora-Cloud-Base-36-1.5.x86_64.raw.xz
-  #   memory: '8192'
-  #   vcpus: '2'
-  #   image_format: raw
-  #   disk_size: 30G
-  #   os_variant: fedora-unknown
-  #   user_name: kvm-user
-  #   network:
-  #     device_name: eth0 # need to match
-  #     addresses:
-  #       - 10.10.10.115/255.255.255.0
-  #     gateway4: '10.10.10.1'
-  #     nameservers:
-  #       - '10.10.10.1'
-  #       - '8.8.8.8'
-  # - instance_id: fedora-vm6
-  #   local_hostname: fedora-vm6
-  #   noautoconsole: true
-  #   image_filename: Fedora-Cloud-Base-36-1.5.x86_64.raw.xz
-  #   memory: '8192'
-  #   vcpus: '2'
-  #   image_format: raw
-  #   disk_size: 30G
-  #   os_variant: fedora-unknown
-  #   user_name: kvm-user
-  #   network:
-  #     device_name: eth0 # need to match
-  #     addresses:
-  #       - 10.10.10.116/255.255.255.0
   #     gateway4: '10.10.10.1'
   #     nameservers:
   #       - '10.10.10.1'

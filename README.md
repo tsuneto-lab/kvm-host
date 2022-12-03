@@ -34,6 +34,15 @@ virsh console guest1-fedora36
 
 templated script
 
+```
+./cloud-init/centos-vm1/install.sh
+./cloud-init/centos-vm2/install.sh
+./cloud-init/centos-vm3/install.sh
+./cloud-init/centos-vm4/install.sh
+./cloud-init/centos-vm5/install.sh
+./cloud-init/centos-vm6/install.sh
+```
+
 ## change IP address in guest os (old)
 
 using cloud-init instead.
@@ -61,6 +70,12 @@ df
 ```
 
 ## clean up
+
+```
+./cloud-init/centos-vm1/destroy.sh
+```
+
+### old
 
 ```
 virsh shutdown fedora-vm1
