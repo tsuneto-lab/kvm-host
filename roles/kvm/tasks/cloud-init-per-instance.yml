@@ -38,6 +38,7 @@
     instance_id: '{{parent_item.instance_id}}'
     local_hostname: '{{parent_item.local_hostname}}'
     user_name: '{{parent_item.user_name}}'
+    plain_text_passwd: '{{parent_item.plain_text_passwd | default("")}}'
     device_name: '{{parent_item.network.device_name}}'
     addresses: '{{parent_item.network.addresses}}'
     gateway4: '{{parent_item.network.gateway4}}'
@@ -76,7 +77,7 @@
   changed_when: False
 
 - name: virtual_disk_size
-  shell: "qemu-img info {{ images_directory }}/{{ parent_item.instance_id }}.{{ parent_item.image_format }} | grep 'virtual size' | sed -r 's|.*virtual size: ([0-9]+) GiB.*|\\1G|'"
+  shell: "qemu-img info {{ images_directory }}/{{ parent_item.instance_id }}.{{ parent_item.image_format }} | grep 'virtual size' | sed -r 's|.*virtual size: ([0-9.]+) GiB.*|\\1G|'"
   register: virtual_disk_size
   changed_when: False
 

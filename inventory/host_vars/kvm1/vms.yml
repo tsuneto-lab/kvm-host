@@ -89,6 +89,25 @@ guest_vms:
       nameservers:
         - '10.10.10.1'
         - '8.8.8.8'
+  - instance_id: ubuntu-vm1
+    local_hostname: ubuntu-vm1
+    noautoconsole: false
+    image_filename: focal-server-cloudimg-amd64.img.xz
+    memory: '8192'
+    vcpus: '2'
+    image_format: qcow2
+    disk_size: 20G
+    os_variant: ubuntu20.04
+    user_name: kvm-user
+    # plain_text_passwd: kvm-user
+    network:
+      device_name: enp1s0 # need to match
+      addresses:
+        - 10.10.10.121/24
+      gateway4: '10.10.10.1'
+      nameservers:
+        - '10.10.10.1'
+        - '8.8.8.8'
   # - instance_id: fedora-vm1
   #   local_hostname: fedora-vm1
   #   noautoconsole: true

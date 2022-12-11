@@ -1,11 +1,15 @@
 #cloud-config
 users:
   - name: {{ user_name }}
-    plain_text_passwd: {{ user_name }}
+{% if plain_text_passwd | length > 0 %}
+    plain_text_passwd: {{ plain_text_passwd }}
+{% endif %}
     ssh_authorized_keys:
 {% for key in ssh_authorized_keys %}
       - {{ key }}
 {% endfor %}
     shell: '/bin/bash'
     sudo: 'ALL=(ALL) NOPASSWD:ALL'
-    lock_passwd: true
+{% if plain_text_passwd | length > 0 %}
+    lock_passwd: false
+{% endif %}
