@@ -1,0 +1,29 @@
+- name: make sure the remote host has directories for cloud-init
+  file:
+    path: '{{ item }}'
+    owner: '{{ kvm_user }}'
+    group: 'kvm'
+    mode: '775'
+    state: directory
+  loop:
+    - '/home/{{ kvm_user }}/windows'
+    - '/home/{{ kvm_user }}/windows/{{ parent_item.instance_id }}'
+
+# - debug:
+#     var: result
+
+- name: Generate Install Script for manual use
+  template:
+    src: windows/install.sh.j2
+    dest: '/home/{{ kvm_user }}/windows/{{ parent_item.instance_id }}/install.sh'
+    owner: '{{kvm_user}}'
+    group: 'kvm'
+    mode: '774'
+
+- name: Generate destroy script for manual use
+  template:
+    src: windows/destroy.sh.j2
+    dest: '/home/{{ kvm_user }}/windows/{{ parent_item.instance_id }}/destroy.sh'
+    owner: '{{kvm_user}}'
+    group: 'kvm'
+    mode: '774'

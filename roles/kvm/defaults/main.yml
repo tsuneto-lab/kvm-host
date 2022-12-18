@@ -1,2 +1,3 @@
 images_directory: /var/lib/libvirt/images
 cloud_init_destination_dir: '{{ images_directory }}/isos/cloud-init'
+windows_destination_dir: '{{ images_directory }}/isos/windows'

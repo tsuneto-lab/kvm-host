@@ -1,6 +1,8 @@
 ansible_user: ubuntu
 kvm_user: kvm-user
 kvm_image_volume_device: /dev/sda1
+# format and make partition # sudo fdisk /dev/sda # sudo mkfs -t ext4 /dev/sda1
+nvidia_driver: nvidia-driver-470-server
 default_virt_pool:
   name: default
   uuid: 83041c1d-10e6-4b09-9b1a-ce7f1393d23e # not using at the moment
@@ -9,6 +11,10 @@ network:
   bridge_name: br0
   interface_name: enp7s0
 guest_os_images:
-  - image_filename: Fedora-Cloud-Base-36-1.5.x86_64.raw.xz
-  - image_filename: CentOS-Stream-GenericCloud-8-20220913.0.x86_64.qcow2.xz
-  - image_filename: focal-server-cloudimg-amd64.img.xz
+  xz:
+    - image_filename: Fedora-Cloud-Base-36-1.5.x86_64.raw.xz
+    - image_filename: CentOS-Stream-GenericCloud-8-20220913.0.x86_64.qcow2.xz
+    - image_filename: focal-server-cloudimg-amd64.img.xz
+  windows:
+    - image_filename: virtio-win-0.1.225.iso
+    - image_filename: Win10_22H2_EnglishInternational_x64.iso

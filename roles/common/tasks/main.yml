@@ -9,3 +9,11 @@
 - name: Upgrade packages
   become: true
   import_tasks: upgrade-pkg.yml
+
+- name: Install NVIDIA driver
+  become: true
+  import_tasks: nvidia.yml
+
+- name: enable IOMMU
+  become: true
+  import_tasks: iommu.yml

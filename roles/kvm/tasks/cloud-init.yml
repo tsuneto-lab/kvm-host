@@ -6,10 +6,10 @@
     mode: '775'
     state: directory
 
-- name: loop through the guest-vms definitions to generate cloud-init configs
+- name: loop through the linux guest-vms definitions to generate cloud-init configs
   include_role:
     name: '{{ role_name }}'
     tasks_from: cloud-init-per-instance.yml
-  loop: '{{ guest_vms }}'
+  loop: '{{ guest_vms.linux }}'
   loop_control:
     loop_var: parent_item

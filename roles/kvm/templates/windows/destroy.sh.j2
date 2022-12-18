@@ -1,0 +1,7 @@
+#/bin/bash
+
+NAME={{ parent_item.instance_id }}
+
+virsh shutdown $NAME
+virsh undefine $NAME
+rm /var/lib/libvirt/images/${NAME}.qcow2

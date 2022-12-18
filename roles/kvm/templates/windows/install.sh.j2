@@ -1,0 +1,22 @@
+#/bin/bash
+
+NAME={{ parent_item.instance_id }}
+
+qemu-img create -f qcow2 /var/lib/libvirt/images/$NAME.qcow2 100G
+
+virt-install \
+  --connect=qemu:///system \
+  --memory 12288 \
+  --vcpus 6,sockets=1 \
+  --network bridge=br0,model=virtio \
+  --name ${NAME} \
+  --disk {{ images_directory }}/${NAME}.qcow2,device=disk,bus=virtio,format=qcow2 \
+  --disk {{ images_directory }}/isos/windows/virtio-win-0.1.225.iso,device=cdrom \
+  --cdrom {{ images_directory }}/isos/windows/Win10_22H2_EnglishInternational_x64.iso \
+  --host-device=pci_0000_03_00_0
+  --host-device=pci_0000_03_00_1
+  --host-device=pci_0000_00_1a_0
+  --host-device=pci_0000_00_1d_0
+  --os-variant win10 \
+  --virt-type kvm # \
+  # --graphics vnc,listen=0.0.0.0,password={{ parent_item.vnc_pass }}

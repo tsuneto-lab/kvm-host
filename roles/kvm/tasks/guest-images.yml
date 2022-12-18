@@ -1,14 +1,25 @@
 - name: Make sure the target dirs exist
   file:
-    path: '{{ images_directory }}/xz'
+    path: '{{ images_directory }}/isos/{{ item }}'
     group: 'kvm'
     mode: '775'
     state: directory
+  loop:
+    - xz
+    - windows
 
-- name: Copy Images
+- name: Copy compressed Images
   copy:
     src: 'images/xz/{{ item.image_filename }}'
-    dest: '{{ images_directory }}/xz/{{ item.image_filename }}'
+    dest: '{{ images_directory }}/isos/xz/{{ item.image_filename }}'
     owner: '{{ kvm_user }}'
     group: kvm
-  loop: '{{ guest_os_images }}'
+  loop: '{{ guest_os_images.xz }}'
+
+- name: Copy windows images
+  copy:
+    src: 'images/windows/{{ item.image_filename }}'
+    dest: '{{ images_directory }}/isos/windows/{{ item.image_filename }}'
+    owner: '{{ kvm_user }}'
+    group: kvm
+  loop: '{{ guest_os_images.windows }}'

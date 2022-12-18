@@ -1,0 +1,26 @@
+- name: check if splash is configured in the boot command
+  lineinfile:
+    backup: true
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX=".*intel_iommu=on'
+    state: absent
+  check_mode: true
+  register: grub_cmdline_check
+  changed_when: false
+
+- name: insert iommu setting if missing
+  lineinfile:
+    backrefs: true
+    path: /etc/default/grub
+    regexp: '^(GRUB_CMDLINE_LINUX=".*)"$'
+    line: '\1 intel_iommu=on"'
+  when: grub_cmdline_check.found == 0
+
+- name: Make Grub Config
+  shell: grub-mkconfig -o /boot/grub/grub.cfg
+  when: grub_cmdline_check.found == 0
+
+- name: Reboot if changed
+  ansible.builtin.reboot:
+    reboot_timeout: 100
+  when: grub_cmdline_check.found == 0

@@ -2,13 +2,13 @@
   become: true
   import_tasks: pre-check.yml
 
-- name: KVM User
-  become: true
-  import_tasks: user.yml
-
 - name: Install KVM
   become: true
   import_tasks: install.yml
+
+- name: KVM User
+  become: true
+  import_tasks: user.yml
 
 - name: Network Setting
   become: true
@@ -25,3 +25,7 @@
 - name: Prepare Guest Cloud-Init images
   become: true
   import_tasks: cloud-init.yml
+
+- name: Prepare Guest Windows images
+  become: true
+  import_tasks: windows.yml

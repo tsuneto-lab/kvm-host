@@ -1,0 +1,7 @@
+- name: loop through the windows guest-vms definitions to generate cloud-init configs
+  include_role:
+    name: '{{ role_name }}'
+    tasks_from: windows-per-instance.yml
+  loop: '{{ guest_vms.windows }}'
+  loop_control:
+    loop_var: parent_item

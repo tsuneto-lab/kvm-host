@@ -7,13 +7,19 @@
       dest: '/etc/netplan/99-ansible-custom.yaml'
   register: task_bridge
 
+- name: Remove Installer network configs
+  file:
+    path: /etc/netplan/00-installer-config.yaml
+    state: absent
+  register: remove_init_config
+
 - name: Apply netplan to see if the file is valid before reboot
   command: netplan apply
 
 - name: Reboot if network configuration changed
   ansible.builtin.reboot:
     reboot_timeout: 100
-  when: task_bridge.changed
+  when: task_bridge.changed or remove_init_config.changed
 # to inspect:
 # cat /etc/network/interfaces
 # networkctl

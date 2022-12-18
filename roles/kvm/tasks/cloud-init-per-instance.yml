@@ -9,10 +9,10 @@
     - '/home/{{ kvm_user }}/cloud-init'
     - '/home/{{ kvm_user }}/cloud-init/{{ parent_item.instance_id }}'
 
-- name: Extract xs archive
+- name: Extract xz archive
   shell: |
     IMG_DIR="{{ images_directory }}"
-    COMPRESSED_FILE="$IMG_DIR/xz/{{ parent_item.image_filename }}"
+    COMPRESSED_FILE="$IMG_DIR/isos/xz/{{ parent_item.image_filename }}"
     EXTRACTED_FILE="$IMG_DIR/{{ parent_item.instance_id }}.{{ parent_item.image_format }}"
     if [ -e "$EXTRACTED_FILE" ]; then
       echo "${EXTRACTED_FILE} already exists"

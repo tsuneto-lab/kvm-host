@@ -15,4 +15,6 @@ virt-install \
 {% if parent_item.noautoconsole is defined and parent_item.noautoconsole is sameas true %}
   --noautoconsole \
 {% endif %}
+{% if parent_item.disable_autostart is not defined or parent_item.disable_autostart is not sameas true %}
   --autostart
+{% endif %}

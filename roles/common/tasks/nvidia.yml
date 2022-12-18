@@ -1,0 +1,15 @@
+- name: Update PCI IDs
+  command: update-pciids
+
+- name: Upgrade apt packages
+  ansible.builtin.apt:
+    name:
+      - '{{ nvidia_driver }}'
+    state: present
+  register: driver
+  when: nvidia_driver is defined
+
+- name: Reboot if driver is changed
+  ansible.builtin.reboot:
+    reboot_timeout: 100
+  when: driver.changed
