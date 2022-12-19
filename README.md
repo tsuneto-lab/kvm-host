@@ -109,3 +109,13 @@ or edit exiting vm as follows
 ```
 
 virsh start windows-vm1
+
+```xml
+    <graphics type='vnc' port='-1' autoport='yes' listen='0.0.0.0' passwd='password'>
+      <listen type='address' address='0.0.0.0'/>
+    </graphics>
+    <video>
+      <model type='qxl' ram='65536' vram='65536' vgamem='16384' heads='1' primary='yes'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x0'/>
+    </video>
+```

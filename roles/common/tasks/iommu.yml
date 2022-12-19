@@ -2,13 +2,14 @@
   lineinfile:
     backup: true
     path: /etc/default/grub
+    # regexp: '^GRUB_CMDLINE_LINUX=".*intel_iommu=on vfio-pci\.ids={{ vfio_pciids }}'
     regexp: '^GRUB_CMDLINE_LINUX=".*intel_iommu=on'
     state: absent
   check_mode: true
   register: grub_cmdline_check
   changed_when: false
 
-- name: insert iommu setting if missing
+- name: insert iommu if missing
   lineinfile:
     backrefs: true
     path: /etc/default/grub

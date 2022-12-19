@@ -1,0 +1,21 @@
+- name: Hook Directory
+  file:
+    path: '{{ item }}'
+    owner: '{{ kvm_user }}'
+    group: 'kvm'
+    mode: '775'
+    state: directory
+  loop:
+    - /etc/libvirt/hooks
+
+- name: Copy qemu-hook.sh
+  copy: # TODO: make it template
+    src: '{{ item }}'
+    dest: /etc/libvirt/hooks/
+    mode: '770'
+    directory_mode: '775'
+    owner: '{{ kvm_user }}'
+    group: '{{ kvm_user }}'
+  loop:
+    - hooks/qemu
+    - hooks/qemu.d

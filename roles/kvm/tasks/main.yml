@@ -18,6 +18,10 @@
   become: true
   import_tasks: pool.yml
 
+- name: Prepare Qemu Hooks
+  become: true
+  import_tasks: qemu-hooks.yml
+
 - name: Prepare Guest Images
   become: true
   import_tasks: guest-images.yml

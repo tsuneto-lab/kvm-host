@@ -93,8 +93,9 @@ guest_vms:
         nameservers:
           - '10.10.10.1'
           - '8.8.8.8'
-    - instance_id: ubuntu-vm1
-      local_hostname: ubuntu-vm1
+    - instance_id: ubuntu-gpu-kvm1
+      local_hostname: ubuntu-gpu-kvm1
+      passthrough_gpu: true
       disable_autostart: true
       noautoconsole: false
       image_filename: focal-server-cloudimg-amd64.img.xz

@@ -11,10 +11,15 @@ virt-install \
   --disk {{images_directory}}/isos/cloud-init/{{parent_item.instance_id}}-seed.iso,device=cdrom \
   --os-variant {{parent_item.os_variant}} \
   --virt-type kvm \
-  --graphics none \
 {% if parent_item.noautoconsole is defined and parent_item.noautoconsole is sameas true %}
   --noautoconsole \
 {% endif %}
 {% if parent_item.disable_autostart is not defined or parent_item.disable_autostart is not sameas true %}
-  --autostart
+  --autostart \
 {% endif %}
+{% if parent_item.passthrough_gpu is defined and parent_item.passthrough_gpu is sameas true %}
+  --machine q35 \
+  --host-device=pci_0000_03_00_0 \
+  --host-device=pci_0000_03_00_1 \
+{% endif %}
+  --graphics none
