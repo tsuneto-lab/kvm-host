@@ -15,6 +15,7 @@
 
 - name: Apply netplan to see if the file is valid before reboot
   command: netplan apply
+  when: task_bridge.changed or remove_init_config.changed
 
 - name: Reboot if network configuration changed
   ansible.builtin.reboot:

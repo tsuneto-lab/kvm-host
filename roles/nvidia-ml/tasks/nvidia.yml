@@ -1,0 +1,22 @@
+- name: Update PCI IDs
+  command: update-pciids
+
+- name: Install Cuda deb
+  ansible.builtin.apt:
+    deb: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
+
+- name: Install Nvidia drivers
+  ansible.builtin.apt:
+    name:
+      - '{{ item }}'
+    state: present
+    update_cache: true
+  register: driver
+  loop:
+    - '{{ nvidia_driver }}'
+    - cuda-11-4
+
+- name: Reboot if driver is changed
+  ansible.builtin.reboot:
+    reboot_timeout: 100
+  when: driver.changed

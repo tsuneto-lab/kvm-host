@@ -99,10 +99,10 @@ guest_vms:
       disable_autostart: true
       noautoconsole: false
       image_filename: focal-server-cloudimg-amd64.img.xz
-      memory: '8192'
-      vcpus: '2'
+      memory: '20480'
+      vcpus: '4'
       image_format: qcow2
-      disk_size: 20G
+      disk_size: 50G
       os_variant: ubuntu20.04
       user_name: kvm-user
       # plain_text_passwd: kvm-user

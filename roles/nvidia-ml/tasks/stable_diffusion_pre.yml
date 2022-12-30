@@ -1,0 +1,5 @@
+- name: Prerequisites
+  ansible.builtin.apt:
+    name:
+      - libxrender1
+    state: present

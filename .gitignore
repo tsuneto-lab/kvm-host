@@ -1,3 +1,7 @@
 *.xz
 *.iso
 .vscode
+
+roles/nvidia-ml/files/models/*
+
+!.gitkeep

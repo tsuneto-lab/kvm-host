@@ -1,0 +1,35 @@
+- name: Clone Stable Diffusion
+  shell: test -e stable-diffusion || git clone https://github.com/CompVis/stable-diffusion.git
+
+- name: Clone Stable Diffusion 2.0
+  shell: test -e stable-diffusion-2 || git clone https://github.com/Stability-AI/stablediffusion.git stable-diffusion-2
+
+- name: Copy Models
+  copy:
+    src: models
+    dest: '/home/{{ ansible_user }}'
+#
+# cd ~/stable-diffusion
+# conda env create -f environment.yaml
+# conda activate ldm
+# python optimizedSD/optimized_img2img.py --prompt "Austrian alps" --init-img ~/sketch-mountains-input.jpg --strength 0.8 --n_iter 2 --n_samples 5 --H 512 --W 512
+# python -m http.server 8080 --bind 0.0.0.0 --directory /home/kvm-user/outputs
+#
+# python scripts/txt2img.py --prompt "a photograph of an astronaut riding a horse" --plms --outdir /home/kvm-user/outputs --n_samples 1 --ckpt ~/models/sd-v1-4-full-ema.ckpt
+# export 'PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512'
+
+# cd stable-diffusion-2/
+# conda env create -f environment.yaml
+# conda activate ldm
+# export CUDA_HOME=/usr/local/cuda-11.4
+# conda install -c nvidia/label/cuda-11.4.0 cuda-nvcc
+##### you might not need these if you already have 9.x versions
+##### conda install -c conda-forge gcc=9.5.0
+##### conda install -c conda-forge gxx_linux-64==9.5.0
+
+# cd ..
+# git clone https://github.com/facebookresearch/xformers.git
+# cd xformers
+# git submodule update --init --recursive
+# pip install -r requirements.txt
+# pip install -e .

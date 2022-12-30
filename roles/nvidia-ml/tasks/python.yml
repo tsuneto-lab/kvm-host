@@ -1,0 +1,15 @@
+- name: Check if conda exists
+  shell: |
+    cat .bashrc | grep "# activate conda"
+  ignore_errors: true
+  register: check_conda
+
+- name: Install Conda
+  shell: |
+    wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh  -O ~/miniconda.sh
+    bash ~/miniconda.sh -b -p $HOME/miniconda
+
+    echo >> .bashrc
+    echo "# activate conda" >> .bashrc
+    echo 'eval "$($HOME/miniconda/bin/conda shell.bash hook)"' >> .bashrc
+  when: check_conda.failed

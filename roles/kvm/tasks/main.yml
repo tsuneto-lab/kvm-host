@@ -2,6 +2,14 @@
   become: true
   import_tasks: pre-check.yml
 
+- name: Install NVIDIA driver
+  become: true
+  import_tasks: nvidia.yml
+
+- name: enable IOMMU
+  become: true
+  import_tasks: iommu.yml
+
 - name: Install KVM
   become: true
   import_tasks: install.yml

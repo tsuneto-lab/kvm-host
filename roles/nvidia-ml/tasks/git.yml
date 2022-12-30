@@ -1,0 +1,6 @@
+- name: Install Git LFS
+  ansible.builtin.apt:
+    name:
+      - git-lfs
+    state: present
+    update_cache: true
