@@ -1,0 +1,6 @@
+- name: Stable Diffusion Pre
+  become: true
+  import_tasks: stable_diffusion_pre.yml
+
+- name: Stable Diffusion
+  import_tasks: stable_diffusion.yml

@@ -1,0 +1,10 @@
+- name: Configure Cuda
+  become: true
+  import_tasks: cuda.yml
+
+- name: Configure Git
+  become: true
+  import_tasks: git.yml
+
+- name: Add machine learning prerequisites
+  import_tasks: python.yml

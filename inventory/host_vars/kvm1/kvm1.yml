@@ -1,6 +1,6 @@
 ansible_user: ubuntu
 kvm_user: kvm-user
-kvm_image_volume_device: /dev/sda1
+kvm_image_volume_device: /dev/sdb1
 # format and make partition # sudo fdisk /dev/sda # sudo mkfs -t ext4 /dev/sda1
 nvidia_driver: nvidia-driver-470-server
 # vfio_pciids: 10de:2504,10de:228e
@@ -9,6 +9,7 @@ default_virt_pool:
   uuid: 83041c1d-10e6-4b09-9b1a-ce7f1393d23e # not using at the moment
   path: /var/lib/libvirt/images
 network:
+  ipv4: 10.10.10.101/24
   bridge_name: br0
   interface_name: enp7s0
 guest_os_images:

@@ -1,0 +1,11 @@
+- name: Retrieve windows boot menuentry
+  shell: |
+    cat /boot/grub/grub.cfg  | grep -i 'windows boot manager' | awk -F\' '{print $4}'
+  register: windows_entry
+
+- name: Template reboot script
+  template:
+    src: reboot-into-windows.sh.j2
+    dest: /home/{{ansible_user}}/reboot-into-windows.sh
+    mode: '770'
+    owner: '{{ ansible_user }}'

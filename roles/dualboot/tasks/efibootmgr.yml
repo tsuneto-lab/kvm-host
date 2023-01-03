@@ -1,0 +1,5 @@
+- name: Install efibootmgr
+  ansible.builtin.apt:
+    name:
+      - efibootmgr
+    state: present

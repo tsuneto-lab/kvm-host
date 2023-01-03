@@ -2,10 +2,6 @@
   become: true
   import_tasks: pre-check.yml
 
-- name: Install NVIDIA driver
-  become: true
-  import_tasks: nvidia.yml
-
 - name: enable IOMMU
   become: true
   import_tasks: iommu.yml
@@ -17,10 +13,6 @@
 - name: KVM User
   become: true
   import_tasks: user.yml
-
-- name: Network Setting
-  become: true
-  import_tasks: network.yml
 
 - name: Storage pool
   become: true

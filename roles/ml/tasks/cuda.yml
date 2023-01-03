@@ -1,0 +1,20 @@
+- name: Install Cuda deb
+  ansible.builtin.apt:
+    deb: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
+  when: cuda.enabled
+
+- name: Install Cuda
+  ansible.builtin.apt:
+    name:
+      - '{{ item }}'
+    state: present
+    update_cache: true
+  register: install_cuda
+  loop:
+    - cuda-11-4
+  when: cuda.enabled
+
+- name: Reboot if cuda is changed
+  ansible.builtin.reboot:
+    reboot_timeout: 100
+  when: install_cuda.changed

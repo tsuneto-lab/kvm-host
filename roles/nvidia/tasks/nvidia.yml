@@ -1,10 +1,6 @@
 - name: Update PCI IDs
   command: update-pciids
 
-- name: Install Cuda deb
-  ansible.builtin.apt:
-    deb: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
-
 - name: Install Nvidia drivers
   ansible.builtin.apt:
     name:
@@ -14,7 +10,13 @@
   register: driver
   loop:
     - '{{ nvidia_driver }}'
-    - cuda-11-4
+  ignore_errors: true
+
+- name: Set default to Multi User
+  file:
+    src: /usr/lib/systemd/system/multi-user.target
+    dest: /etc/systemd/system/default.target
+    state: link
 
 - name: Reboot if driver is changed
   ansible.builtin.reboot:

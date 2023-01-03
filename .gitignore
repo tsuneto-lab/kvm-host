@@ -2,6 +2,6 @@
 *.iso
 .vscode
 
-roles/nvidia-ml/files/models/*
+roles/stable-diffusion/files/models/*
 
 !.gitkeep

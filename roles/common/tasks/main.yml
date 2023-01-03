@@ -6,6 +6,14 @@
   become: true
   import_tasks: sudoers.yml
 
+- name: Network
+  become: true
+  import_tasks: network.yml
+
+- name: Enable Wake on Lan
+  become: true
+  import_tasks: wol.yml
+
 - name: Upgrade packages
   become: true
   import_tasks: upgrade-pkg.yml

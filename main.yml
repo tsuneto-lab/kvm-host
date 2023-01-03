@@ -2,6 +2,19 @@
   roles:
     - common
 
-- hosts: all
+- hosts: dualboot
+  roles:
+    - dualboot
+
+- hosts: nvidia
+  roles:
+    - nvidia
+
+- hosts: ml
+  roles:
+    - ml
+    - stable-diffusion
+
+- hosts: kvm-hosts
   roles:
     - kvm

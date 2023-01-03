@@ -1,0 +1,3 @@
+- name: Add drivers
+  become: true
+  import_tasks: nvidia.yml

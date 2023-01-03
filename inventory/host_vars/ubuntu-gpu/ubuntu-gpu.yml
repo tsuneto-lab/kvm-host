@@ -1,0 +1,8 @@
+ansible_user: ubuntu
+nvidia_driver: nvidia-driver-470-server
+cuda:
+  enabled: true
+network:
+  ipv4: 10.10.10.99/24
+  bridge_name: br0
+  interface_name: enp5s0

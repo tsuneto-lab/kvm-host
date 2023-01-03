@@ -1,0 +1,7 @@
+- name: EFI boot mgr
+  become: true
+  import_tasks: efibootmgr.yml
+
+- name: Grub
+  become: true
+  import_tasks: grub-reboot.yml

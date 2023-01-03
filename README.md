@@ -5,7 +5,7 @@
 source ../ansible-venv/bin/activate
 
 ssh-copy-id -i ~/.ssh/id_rsa_home  ubuntu@kvm1
-# first time. --limit option would be helpful.
+# first time. --limit option would be helpful. also, you might need to edit .ssh/config
 ansible-playbook -Ki inventory/hosts.yml main.yml
 # K prompts for sudo password
 
