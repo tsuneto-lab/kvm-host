@@ -1,5 +1,7 @@
 - hosts: all
   roles:
     - nvidia
+    - docker
+    - nvidia-docker
     - ml
     - stable-diffusion

@@ -1,3 +1,16 @@
+# README
+
+## Manual
+
+1. Install Ubuntu with static IP
+2. `ssh-copy-id -i ~/.ssh/id_rsa_home ubuntu@ubuntu`
+3. ssh into the machine and extend root fs if needed
+
+```bash
+sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+sudo resize2fs /dev/ubuntu-vg/ubuntu-lv
+```
+
 ## play
 
 ```bash
@@ -12,15 +25,6 @@ ansible-playbook -Ki inventory/hosts.yml main.yml
 ansible-playbook -i inventory/hosts.yml main.yml
 ```
 
-## put guest os image
-
-```bash
-wget https://download.fedoraproject.org/pub/fedora/linux/releases/36/Server/x86_64/iso/Fedora-Server-dvd-x86_64-36-1.5.iso
-mkdir -p /var/lib/libvirt/images/isos/fedora/
-mv Fedora-Server-dvd-x86_64-36-1.5.iso /var/lib/libvirt/images/isos/fedora/
-sudo chown -R libvirt-qemu:kvm /var/lib/libvirt/images/isos/ # not completely sure about the owner
-```
-
 ## install guest os with cloud-init
 
 templated script
@@ -32,20 +36,6 @@ templated script
 ./cloud-init/centos-vm4/install.sh
 ./cloud-init/centos-vm5/install.sh
 ./cloud-init/centos-vm6/install.sh
-```
-
-## resize disk
-
-```bash
-virsh shutdown fedora-vm1
-# qemu-img resize -f raw /var/lib/libvirt/images/fedora-vm1.raw 10G
-# or resize it using this playbook
-virsh start fedora-vm1
-
-# cloud images usually automatically expands volumes
-# ssh kvm-user@fedora-vm1
-# sudo lsblk
-# df
 ```
 
 ## clean up

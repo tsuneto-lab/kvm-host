@@ -12,6 +12,8 @@
 
 - hosts: ml
   roles:
+    - docker
+    - nvidia-docker
     - ml
     - stable-diffusion
 
