@@ -105,8 +105,8 @@ virsh start windows-vm1
 VNC here was reachable on the LAN only; if you reuse this, bind VNC to localhost and access it through an SSH tunnel.
 
 ```xml
-    <graphics type='vnc' port='-1' autoport='yes' listen='127.0.0.1' passwd='REPLACE_WITH_STRONG_PASSWORD'>
-      <listen type='address' address='127.0.0.1'/>
+    <graphics type='vnc' port='-1' autoport='yes' listen='0.0.0.0' passwd='REPLACE_WITH_STRONG_PASSWORD'>
+      <listen type='address' address='0.0.0.0'/>
     </graphics>
     <video>
       <model type='qxl' ram='65536' vram='65536' vgamem='16384' heads='1' primary='yes'/>
