@@ -1,7 +1,7 @@
 guest_vms:
   windows:
     - instance_id: windows-vm1
-      vnc_pass: password
+      vnc_pass: "{{ kvm_windows_vnc_pass }}"
   linux:
     - instance_id: centos-vm1
       local_hostname: centos-vm1

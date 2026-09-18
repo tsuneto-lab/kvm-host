@@ -17,7 +17,7 @@ virt-install \
   --features kvm_hidden=on \
   --machine q35 \
   --virt-type kvm \
-  --graphics vnc,listen=0.0.0.0,password={{ parent_item.vnc_pass }}
+  --graphics vnc,listen=0.0.0.0,passwd={{ parent_item.vnc_pass | mandatory("Set kvm_windows_vnc_pass (or parent_item.vnc_pass) before running windows VM provisioning") }}
   # --host-device=pci_0000_03_00_0 \
   # --host-device=pci_0000_03_00_1 \
   # --host-device=pci_0000_00_1a_0 \
