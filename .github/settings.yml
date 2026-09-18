@@ -1,0 +1,3 @@
+repository:
+  description: "Ansible-built KVM/libvirt home lab: cloud-init guests, bridged networking, VFIO GPU passthrough, and a GPU/ML host. Archived, 2022-2023."
+  topics: "ansible,kvm,libvirt,vfio,gpu-passthrough,homelab,kubernetes,cloud-init"
