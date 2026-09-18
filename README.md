@@ -25,6 +25,8 @@ ansible-playbook -Ki inventory/hosts.yml main.yml
 ansible-playbook -i inventory/hosts.yml main.yml
 ```
 
+Before running, replace `inventory/group_vars/all.yml` `ssh_authorized_keys` example key with your own public key and set `kvm_windows_vnc_pass` (for example in host/group vars or `--extra-vars`) so Windows VM provisioning does not use an in-repo default.
+
 ## install guest os with cloud-init
 
 templated script
@@ -100,8 +102,10 @@ or edit exiting vm as follows
 
 virsh start windows-vm1
 
+VNC here was reachable on the LAN only; if you reuse this, bind VNC to localhost and access it through an SSH tunnel.
+
 ```xml
-    <graphics type='vnc' port='-1' autoport='yes' listen='0.0.0.0' passwd='password'>
+    <graphics type='vnc' port='-1' autoport='yes' listen='0.0.0.0' passwd='REPLACE_WITH_STRONG_PASSWORD'>
       <listen type='address' address='0.0.0.0'/>
     </graphics>
     <video>

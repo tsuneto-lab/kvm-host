@@ -6,7 +6,7 @@ nvidia_driver: nvidia-driver-470-server
 # vfio_pciids: 10de:2504,10de:228e
 default_virt_pool:
   name: default
-  uuid: 83041c1d-10e6-4b09-9b1a-ce7f1393d23e # not using at the moment
+  uuid: 00000000-0000-0000-0000-000000000000 # placeholder, not using at the moment
   path: /var/lib/libvirt/images
 network:
   ipv4: 10.10.10.101/24
